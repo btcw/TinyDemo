@@ -23,21 +23,21 @@ object MyLogger {
         }
     }
 
-    fun d(tag: String, msg: String) {
+    fun d(msg: String) {
         if (IS_PRINT_LOG) {
-            Logger.d(tag, msg)
+            Logger.d(msg)
         }
     }
 
-    fun e(tag: String, msg: String) {
+    fun e(msg: String) {
         if (IS_PRINT_LOG) {
-            Logger.e(tag, msg)
+            Logger.e(msg)
         }
     }
 
-    fun wtf(tag: String, msg: String) {
+    fun wtf(msg: String) {
         if (IS_PRINT_LOG) {
-            Logger.wtf(tag, msg)
+            Logger.wtf(msg)
         }
     }
 

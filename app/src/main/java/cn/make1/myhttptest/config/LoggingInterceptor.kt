@@ -20,7 +20,7 @@ class LoggingInterceptor : Interceptor {
         val request = chain.request()
         //请求发起的时间
         val t1 = System.nanoTime()
-        MyLogger.d("LoggingInterceptor", String.format("发送请求 %s on %s%n%s",
+        MyLogger.d( String.format("发送请求 %s on %s%n%s",
                 request.url(), chain.connection(), request.headers()))
 
         val response = chain.proceed(request)
@@ -32,7 +32,7 @@ class LoggingInterceptor : Interceptor {
         //个新的response给应用层处理
         val responseBody = response.peekBody(java.lang.Long.MAX_VALUE)
 
-        MyLogger.d("LoggingInterceptor", String.format("接收响应: [%s] %n返回json:【%s】 %.1fms%n%s",
+        MyLogger.d(String.format("接收响应: [%s] %n返回json:【%s】 %.1fms%n%s",
                 response.request().url(),
                 responseBody.string(),
                 (t2 - t1) / 1e6,

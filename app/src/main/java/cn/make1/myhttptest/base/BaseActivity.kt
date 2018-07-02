@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 
 /**
  * Comment: //BaseActivity
@@ -100,6 +101,11 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
             val im = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
         }
+    }
+
+
+    protected fun showToast(msg: String,length:Int){
+        Toast.makeText(this,msg,length).show()
     }
 
 

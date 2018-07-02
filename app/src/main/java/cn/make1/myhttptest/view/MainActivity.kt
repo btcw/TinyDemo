@@ -24,6 +24,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun widgetClick(v: View) {
-        Toast.makeText(this,"点击${count++}次",Toast.LENGTH_SHORT).show()
+        showToast("点击${count++}次",Toast.LENGTH_SHORT)
     }
 }
