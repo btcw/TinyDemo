@@ -2,9 +2,10 @@ package cn.make1.myhttptest.view
 
 import android.os.Bundle
 import android.view.View
-
+import android.widget.Toast
 import cn.make1.myhttptest.R
 import cn.make1.myhttptest.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * 首页
@@ -13,12 +14,16 @@ import cn.make1.myhttptest.base.BaseActivity
  */
 class MainActivity : BaseActivity() {
 
+    var count:Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setScreenRotate(false)
+        editText.setOnClickListener(this)
     }
 
     override fun widgetClick(v: View) {
-
+        Toast.makeText(this,"点击${count++}次",Toast.LENGTH_SHORT).show()
     }
 }
