@@ -1,5 +1,6 @@
 package cn.make1.myhttptest.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -9,7 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
+import cn.make1.myhttptest.costumview.MyToast
 
 /**
  * Comment: //BaseActivity
@@ -104,9 +105,11 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    protected fun showToast(msg: String,length:Int){
-        Toast.makeText(this,msg,length).show()
+    @SuppressLint("InflateParams")
+    protected fun showToast(msg: String) {
+        MyToast.show(msg,this)
     }
+
 
 
 }
