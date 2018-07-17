@@ -7,7 +7,6 @@ import com.allen.library.RxHttpUtils
 import com.allen.library.interceptor.Transformer
 import kotlinx.android.synthetic.main.activity_main.*
 import top.iwill.tinyapp.R
-import top.iwill.tinyapp.R.id.btn
 import top.iwill.tinyapp.base.BaseActivity
 import top.iwill.tinyapp.http.ApiService
 import top.iwill.tinyapp.http.entity.BaseResult

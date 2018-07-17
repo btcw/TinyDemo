@@ -9,8 +9,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import top.iwill.tinyapp.widget.MyToast
 import com.allen.library.RxHttpUtils
+import com.r0adkll.slidr.Slidr
+import top.iwill.tinyapp.widget.MyToast
 
 /**
  * Comment: //BaseActivity
@@ -28,9 +29,14 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener {
 
     private var lastClick: Long = 0
 
+    protected var isNeedSlideBack = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //是否需要滑动退出
+        if (isNeedSlideBack){
+            Slidr.attach(this)
+        }
 
 
         requestedOrientation = if (!isAllowScreenRotate) {
