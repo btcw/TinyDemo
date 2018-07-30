@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:background="@color/photo_list_bg_color"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
+
+
+    <ImageView
+        android:id="@+id/actionbarBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:onClick="onClick"
+        android:padding="5dp"
+        android:src="@mipmap/ic_action_bar_back"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/actionbarTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:text="查看" />
+
+    <ImageView
+        android:id="@+id/actionbarAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:onClick="onClick"
+        android:padding="5dp"
+        android:src="@mipmap/action_bar_add"
+        android:visibility="invisible" />
+
+
+</LinearLayout>

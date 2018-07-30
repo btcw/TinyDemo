@@ -7,4 +7,19 @@
     <color name="yellow">#c9a96a</color>
     <color name="red">#df3a3a</color>
     <color name="white">#FFF</color>
+    <color name="black">#000</color>
+
+    <color name="light_gray">#c1c1c1</color>
+    <color name="gray">#838383</color>
+
+    <!--登录注册-->
+    <color name="login_bg">#323033</color>
+    <color name="head_border_color">#494037</color>
+
+    <!--首页-->
+    <color name="mark_bg_color">#1bd2de</color>
+    <color name="selectable_bar_selected">#1bd2de</color>
+    <color name="selectable_bar_not_selected">#aeaeae</color>
+    <!--图片列表页-->
+    <color name="photo_list_bg_color">#c8dfdfdf</color>
 </resources>
