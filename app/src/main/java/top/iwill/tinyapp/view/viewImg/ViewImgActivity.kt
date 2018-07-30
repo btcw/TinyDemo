@@ -7,7 +7,7 @@ import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
 
 /**
- * Comment: //todo
+ * Comment: //大图浏览缩放页面
  *
  * @author Jax.zhou in Make1
  * @date 2018/7/30

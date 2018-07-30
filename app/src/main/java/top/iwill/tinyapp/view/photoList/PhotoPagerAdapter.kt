@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
 /**
- * Comment: //todo
+ * Comment: //图片viewpager的适配器
  *
  * @author Jax.zhou in Make1
  * @date 2018/7/20

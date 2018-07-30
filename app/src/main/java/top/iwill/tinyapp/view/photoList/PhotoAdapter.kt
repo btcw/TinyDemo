@@ -10,7 +10,7 @@ import top.iwill.tinyapp.R
 import top.iwill.tinyapp.widget.GlideApp
 
 /**
- * Comment: //todo
+ * Comment: //图片适配器
  *
  * @author Jax.zhou in Make1
  * @date 2018/7/23

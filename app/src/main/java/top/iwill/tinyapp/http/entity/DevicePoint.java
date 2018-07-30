@@ -1,7 +1,7 @@
 package top.iwill.tinyapp.http.entity;
 
 /**
- * Comment: //todo
+ * Comment: //设备点实体
  *
  * @author Jax.zhou in Make1
  * @date 2018/7/23
