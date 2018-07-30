@@ -14,6 +14,7 @@ import top.iwill.tinyapp.base.BaseActivity
 import top.iwill.tinyapp.utils.*
 import top.iwill.tinyapp.view.photoList.PhotoListActivity
 import top.iwill.tinyapp.view.scan.QrCodeScanActivity
+import top.iwill.tinyapp.view.viewImg.ViewImgActivity
 import top.iwill.tinyapp.widget.MyToast
 import top.iwill.tinyapp.widget.SelectableBar
 
@@ -81,19 +82,27 @@ class MainActivity : BaseActivity()
 
     override fun widgetClick(v: View) {
         when(v.id){
-            R.id.mainBindBtn -> PermissionUtil.requestPermission(this
-                    ,Manifest.permission.CAMERA
-                    ,object :PermissionUtil.PermissionListener{
-                override fun gratedPermission(permission: String) {
-                    startActivity(Intent(this@MainActivity,QrCodeScanActivity::class.java))
-                }
-
-                override fun refused(permission: String) {
-                    showToast(" 需要相机权限才能进行二维码扫描！",MyToast.OTHERS)
-                }
-
-            })
+            R.id.mainBindBtn -> requestLocation()
+            R.id.mainCheckBtn -> startActivity(Intent(this,ViewImgActivity::class.java))
        }
+    }
+
+    /**
+     * 请求定位
+     */
+    private fun requestLocation() {
+        PermissionUtil.requestPermission(this
+                ,Manifest.permission.CAMERA
+                ,object :PermissionUtil.PermissionListener{
+            override fun gratedPermission(permission: String) {
+                startActivity(Intent(this@MainActivity,QrCodeScanActivity::class.java))
+            }
+
+            override fun refused(permission: String) {
+                showToast(" 需要相机权限才能进行二维码扫描！",MyToast.OTHERS)
+            }
+
+        })
     }
 
     override fun onSelectedOn(isSelected: Boolean) {
