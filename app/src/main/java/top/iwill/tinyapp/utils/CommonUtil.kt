@@ -1,7 +1,9 @@
 package top.iwill.tinyapp.utils
 
 import android.app.Activity
+import android.app.ListFragment
 import android.graphics.Bitmap
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 
@@ -34,7 +36,7 @@ fun View.getViewMetrics():Map<String,Int>{
     val h = View.MeasureSpec.makeMeasureSpec(0,
             View.MeasureSpec.UNSPECIFIED)
     measure(w, h)
-    return mapOf<String,Int>(Pair("height",measuredHeight),Pair("width",measuredWidth))
+    return mapOf(Pair("height",measuredHeight),Pair("width",measuredWidth))
 }
 
 /**
@@ -50,7 +52,12 @@ fun View.convertViewToBitmap():Bitmap{
     buildDrawingCache()
 
      return drawingCache
+}
 
+fun  ListFragment.setArgs(photos:ArrayList<String>){
+    val bundle = Bundle()
+    bundle.putStringArrayList("photos",photos)
+    arguments = bundle
 }
 
 

@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.amap.api.maps.AMap
 import kotlinx.android.synthetic.main.activity_photo_list_layout.*
-import kotlinx.android.synthetic.main.custom_action_bar_layout.*
 import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
+import top.iwill.tinyapp.utils.clearTools
 import top.iwill.tinyapp.utils.getWindowMetrics
 import top.iwill.tinyapp.utils.locateOnce
 
@@ -24,6 +24,8 @@ class PhotoListActivity : BaseActivity() {
 
     private lateinit var mAmap: AMap
 
+    private val img = "https://iwill-top-1256873136.file.myqcloud.com/wp-content/pics/2018/07/p2.jpg"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_list_layout)
@@ -32,16 +34,22 @@ class PhotoListActivity : BaseActivity() {
     }
 
     private fun initView() {
-        actionbarTitle.text = "查看"
+//        actionbarTitle.text = "查看"
         mAmap = deviceMap.map
-        mAmap.setPointToCenter(getWindowMetrics(this).heightPixels / 4, getWindowMetrics(this).widthPixels / 2)
+        mAmap.setPointToCenter(getWindowMetrics(this).widthPixels / 2, getWindowMetrics(this).heightPixels / 4)
+        mAmap.clearTools()
         mAmap.locateOnce()
         val fragments = mutableListOf<Fragment>()
+        val a = ListFragment()
+        val b = Bundle()
+        a.arguments = Bundle()
+        fragments.add(a)
         fragments.add(ListFragment())
-        fragments.add(ListFragment2())
         fragments.add(ListFragment())
-        fragments.add(ListFragment2())
-        fragments.add(ListFragment())
+//        val recyclerView1 = RecyclerView(this)
+//        recyclerView1.adapter = PhotoAdapter(arrayListOf(img,img,img,img,img,img,img,img))
+//        val list = arrayListOf(recyclerView1,recyclerView1)
+//        photoViewPager.adapter = PhotosPagerAdapter(list)
         photoViewPager.adapter = PhotoPagerAdapter(fragments, supportFragmentManager)
         photoViewPager.currentItem = 0
         photoViewPager.offscreenPageLimit = 2

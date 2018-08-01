@@ -25,8 +25,8 @@ import top.iwill.tinyapp.widget.SelectableBar
  * @date 2018/6/28
  */
 class MainActivity : BaseActivity()
-        ,SelectableBar.ItemSelectListener
-        ,AMap.OnMarkerClickListener {
+        , SelectableBar.ItemSelectListener
+        , AMap.OnMarkerClickListener {
 
     private lateinit var mAmap: AMap
 
@@ -37,7 +37,7 @@ class MainActivity : BaseActivity()
         mainMapView.onCreate(savedInstanceState)
         mAmap = mainMapView.map
         mAmap.clearTools()
-        val marker = mAmap.addCountMarker(this, LatLng(30.684615,103.957773), STATUS_ON,1024)
+        val marker = mAmap.addCountMarker(this, LatLng(30.684615, 103.957773), STATUS_ON, 1024)
         mainBottomSelectableBar.setOnItemSelectListener(this)
         mAmap.setOnMarkerClickListener(this)
         locateMyLocation()
@@ -45,8 +45,8 @@ class MainActivity : BaseActivity()
 
     private fun locateMyLocation() {
         PermissionUtil.requestPermission(this
-                ,Manifest.permission.ACCESS_COARSE_LOCATION
-                ,object :PermissionUtil.PermissionListener{
+                , Manifest.permission.ACCESS_COARSE_LOCATION
+                , object : PermissionUtil.PermissionListener {
             override fun gratedPermission(permission: String) {
                 mAmap.locateOnce()
             }
@@ -81,10 +81,10 @@ class MainActivity : BaseActivity()
 
 
     override fun widgetClick(v: View) {
-        when(v.id){
+        when (v.id) {
             R.id.mainBindBtn -> requestLocation()
-            R.id.mainCheckBtn -> startActivity(Intent(this,ViewImgActivity::class.java))
-       }
+            R.id.mainCheckBtn -> startActivity(Intent(this, ViewImgActivity::class.java))
+        }
     }
 
     /**
@@ -92,14 +92,14 @@ class MainActivity : BaseActivity()
      */
     private fun requestLocation() {
         PermissionUtil.requestPermission(this
-                ,Manifest.permission.CAMERA
-                ,object :PermissionUtil.PermissionListener{
+                , Manifest.permission.CAMERA
+                , object : PermissionUtil.PermissionListener {
             override fun gratedPermission(permission: String) {
-                startActivity(Intent(this@MainActivity,QrCodeScanActivity::class.java))
+                startActivity(Intent(this@MainActivity, QrCodeScanActivity::class.java))
             }
 
             override fun refused(permission: String) {
-                showToast(" 需要相机权限才能进行二维码扫描！",MyToast.OTHERS)
+                showToast(" 需要相机权限才能进行二维码扫描！", MyToast.OTHERS)
             }
 
         })
@@ -115,7 +115,7 @@ class MainActivity : BaseActivity()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        startActivity(Intent(this,PhotoListActivity::class.java))
+        startActivity(Intent(this, PhotoListActivity::class.java))
         return true
     }
 }
