@@ -3,6 +3,7 @@ package cn.make1.cs.http
 import com.allen.library.RxHttpUtils
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import top.iwill.tinyapp.http.MakeOneApiException
 import top.iwill.tinyapp.http.entity.BaseResult
 import top.iwill.tinyapp.utils.MyLogger
 
@@ -24,7 +25,7 @@ abstract class MakeOneObserver<T> : Observer<BaseResult<T>> {
     override fun onNext(baseData: BaseResult<T>) {
         when (baseData.code) {
             200 -> onSuccess(baseData.data)
-            else -> onError(MakeOneApiException(baseData.code))
+            else -> onError(MakeOneApiException(baseData.code, baseData.description ?: "描述为空"))
         }
     }
 
@@ -33,7 +34,7 @@ abstract class MakeOneObserver<T> : Observer<BaseResult<T>> {
 
     override fun onError(e: Throwable) {
         if (e is MakeOneApiException)
-            onError(e.code, e.msg)
+            onError(e.code, e.des)
         else
             MyLogger.e("fatal Exception,系统错误,msg:" + e.message)
     }

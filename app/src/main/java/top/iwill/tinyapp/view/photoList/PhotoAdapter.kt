@@ -17,7 +17,7 @@ import top.iwill.tinyapp.widget.GlideApp
  * Company:Make1
  * Email:Jax.zhou@make1.cn
  */
-class PhotoAdapter(private val photos: List<String>) : RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
+class PhotoAdapter(private val photos: ArrayList<String>) : RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
 
     lateinit var context: Context
 

@@ -1,4 +1,6 @@
-package cn.make1.cs.view.scan
+package top.iwill.tinyapp.view.scan
+
+import top.iwill.tinyapp.base.BasePresenter
 
 /**
  * Comment: //二维码页面的主持
@@ -8,7 +10,7 @@ package cn.make1.cs.view.scan
  * Company:Make1
  * Email:Jax.zhou@make1.cn
  */
-class QrCodePresenter(var mQrCodeView:QrCodeView?){
+class QrCodePresenter(var mQrCodeView: QrCodeView?):BasePresenter(){
 
     private val mQrCodeInteractor = QrCodeInteractor()
 
@@ -24,9 +26,7 @@ class QrCodePresenter(var mQrCodeView:QrCodeView?){
 //            }
 //        })
     }
-
-
-    fun onDestroy(){
+    override fun onDestroy() {
         mQrCodeView = null
     }
 

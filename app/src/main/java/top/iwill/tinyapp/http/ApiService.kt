@@ -1,11 +1,8 @@
 package top.iwill.tinyapp.http
 
-import cn.make1.cs.http.entity.LoginResult
-import cn.make1.cs.http.entity.RegisterResult
 import io.reactivex.Observable
 import retrofit2.http.*
-import top.iwill.tinyapp.http.entity.BaseResult
-import top.iwill.tinyapp.http.entity.ReceiveMsgResult
+import top.iwill.tinyapp.http.entity.*
 
 /**
  * Comment: //请求服务接口
@@ -21,9 +18,9 @@ interface ApiService {
     /**
      * 登录接口
      */
-    @Headers("Accept: application/json")
+    @Headers("Accept: application/json/")
     @FormUrlEncoded
-    @POST("user/login_in")
+    @POST("user/login")
     fun login(@Field("account") account: String
               , @Field("password") password: String): Observable<BaseResult<LoginResult>>
 
@@ -33,7 +30,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("user/register")
     fun register(@Field("account") account: String
-                 , @Field("password") password: String): Observable<BaseResult<RegisterResult>>
+                 , @Field("password") password: String
+                 , @Field("code") code: String): Observable<BaseResult<RegisterResult>>
 
     /**
      * 获取短信验证码
@@ -41,10 +39,24 @@ interface ApiService {
      * @param codeType 验证码类型	注册=>'register',忘记密码=>'forget'
      */
     @FormUrlEncoded
-    @POST("code/verify")
+    @POST("code/get_code")
     fun getMsgCode(@Field("account") account: String
-                   , @Field("code_type") codeType: String): Observable<BaseResult<ReceiveMsgResult>>
+                   , @Field("type") codeType: String): Observable<BaseResult<Any>>
 
+    /**
+     * 获取设备列表
+     * @param token token
+     * @param status 获取设备  1正常 2错误 0关闭
+     */
+    @FormUrlEncoded
+    @POST("device/device_list")
+    fun getDevices(@Header("token") token: String
+                   , @Field("run_status") status: Int): Observable<BaseResult<DeviceListResult>>
+
+    @FormUrlEncoded
+    @POST("device/single_device")
+    fun getDevicePhotos(@Header("token") token: String
+                        , @Field("deviceId") deviceId: String) :Observable<BaseResult<DevicePhotoResult>>
 
 
     @GET("get接口api")

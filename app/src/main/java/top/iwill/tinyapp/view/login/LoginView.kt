@@ -1,4 +1,4 @@
-package cn.make1.cs.view.login
+package top.iwill.tinyapp.view.login
 
 /**
  * Comment: //登录回调的页面更新接口

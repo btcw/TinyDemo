@@ -11,7 +11,11 @@ import com.amap.api.maps.model.Marker
 import kotlinx.android.synthetic.main.activity_main.*
 import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
-import top.iwill.tinyapp.utils.*
+import top.iwill.tinyapp.http.entity.DevicePoint
+import top.iwill.tinyapp.utils.PermissionUtil
+import top.iwill.tinyapp.utils.addCountMarker
+import top.iwill.tinyapp.utils.clearTools
+import top.iwill.tinyapp.utils.locateOnce
 import top.iwill.tinyapp.view.photoList.PhotoListActivity
 import top.iwill.tinyapp.view.scan.QrCodeScanActivity
 import top.iwill.tinyapp.view.viewImg.ViewImgActivity
@@ -24,24 +28,38 @@ import top.iwill.tinyapp.widget.SelectableBar
  * @author Dev.Zhou
  * @date 2018/6/28
  */
-class MainActivity : BaseActivity()
+class MainActivity : BaseActivity(), MainView
         , SelectableBar.ItemSelectListener
         , AMap.OnMarkerClickListener {
 
+
     private lateinit var mAmap: AMap
+
+    private val mMainPresenter = MainPresenter(this)
+
+    private val mONMarkerList = mutableListOf<Marker>()
+
+    private val mOFFMarkerList = mutableListOf<Marker>()
+
+    private val mERRORMarkList = mutableListOf<Marker>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setScreenRotate(false)
         mainMapView.onCreate(savedInstanceState)
+        init()
+    }
+
+
+    private fun init() {
         mAmap = mainMapView.map
         mAmap.clearTools()
-        val marker = mAmap.addCountMarker(this, LatLng(30.684615, 103.957773), STATUS_ON, 1024)
         mainBottomSelectableBar.setOnItemSelectListener(this)
         mAmap.setOnMarkerClickListener(this)
         locateMyLocation()
     }
+
 
     private fun locateMyLocation() {
         PermissionUtil.requestPermission(this
@@ -53,6 +71,19 @@ class MainActivity : BaseActivity()
 
             override fun refused(permission: String) {
                 showToast("拥有定位权限可以查看当前手机位置！")
+            }
+
+        })
+
+        PermissionUtil.requestPermission(this
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , object : PermissionUtil.PermissionListener {
+            override fun gratedPermission(permission: String) {
+
+            }
+
+            override fun refused(permission: String) {
+                showToast("请允许读写权限！")
             }
 
         })
@@ -105,17 +136,73 @@ class MainActivity : BaseActivity()
         })
     }
 
+
+    /**
+     * 把设备显示到地图上
+     * @param mutableList 不同的设备列表
+     */
+    private fun addDeviceToMap(mutableList: MutableList<Marker>, devices: List<DevicePoint>) {
+        mutableList.clear()
+        for (index in devices.indices) {
+            val device = devices[index]
+            val marker = mAmap.addCountMarker(this, LatLng(device.latitude, device.longitude), device.runStatus, 0)
+            marker?.`object` = device
+            if (marker != null)
+                mutableList.add(marker)
+        }
+    }
+
+    private fun clearMarker(mutableList: MutableList<Marker>){
+        for (index in mutableList.indices){
+            mutableList[index].remove()
+        }
+        mutableList.clear()
+    }
+
     override fun onSelectedOn(isSelected: Boolean) {
+        if (isSelected)
+            mMainPresenter.getDeviceList(1)
+        else
+            clearMarker(mONMarkerList)
     }
 
     override fun onSelectedOff(isSelected: Boolean) {
+        if (isSelected)
+            mMainPresenter.getDeviceList(0)
+        else
+            clearMarker(mOFFMarkerList)
     }
 
     override fun onSelectedError(isSelected: Boolean) {
+        if (isSelected)
+            mMainPresenter.getDeviceList(2)
+        else
+            clearMarker(mERRORMarkList)
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        startActivity(Intent(this, PhotoListActivity::class.java))
+        val device = marker!!.`object` as DevicePoint
+        val intent = Intent(this, PhotoListActivity::class.java)
+        intent.putExtra("deviceId",device.deviceId)
+        startActivity(intent)
         return true
     }
+
+    override fun onReceiveONDevices(devices: List<DevicePoint>) {
+        addDeviceToMap(mONMarkerList, devices)
+    }
+
+
+    override fun onReceiveErrorDevices(devices: List<DevicePoint>) {
+        addDeviceToMap(mERRORMarkList,devices)
+    }
+
+    override fun onReceiveOFFDevices(devices: List<DevicePoint>) {
+        addDeviceToMap(mOFFMarkerList,devices)
+    }
+
+    override fun onError(des: String) {
+        showToast(des, MyToast.ERROR)
+    }
+
 }

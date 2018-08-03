@@ -1,4 +1,4 @@
-package cn.make1.cs.view.register
+package top.iwill.tinyapp.view.register
 
 /**
  * Comment: //注册页面接口
@@ -19,11 +19,6 @@ interface RegisterView{
      * 获取验证码成功
      */
     fun onGetMsgSuccess()
-
-    /**
-     * 校验验证码成功
-     */
-    fun onVerifyCodeSuccess()
 
     /**
      * 请求失败

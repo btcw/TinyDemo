@@ -1,4 +1,7 @@
-package cn.make1.cs.http
+package top.iwill.tinyapp.http
+
+import org.greenrobot.eventbus.EventBus
+import top.iwill.tinyapp.eventbus.InvalidTokenEvent
 
 /**
  * Comment: //自定义异常
@@ -8,20 +11,9 @@ package cn.make1.cs.http
  * Company:Make1
  * Email:Jax.zhou@make1.cn
  */
-class MakeOneApiException(var code: Int) : RuntimeException() {
-
-    lateinit var msg: String
+class MakeOneApiException(val code: Int, var des: String) : RuntimeException() {
 
     init {
-        handleException(code)
+        if (code == 202) EventBus.getDefault().post(InvalidTokenEvent())
     }
-
-    private fun handleException(code: Int): MakeOneApiException {
-        msg = when (code) {
-            201 -> "问题描述"
-            else -> "其他错误"
-        }
-        return this
-    }
-
 }

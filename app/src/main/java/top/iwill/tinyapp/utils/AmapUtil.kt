@@ -3,6 +3,7 @@ package top.iwill.tinyapp.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.amap.api.maps.AMap
@@ -22,11 +23,11 @@ import top.iwill.tinyapp.R
 /**
  * marker状态
  */
-const val STATUS_ON = "marker status on"
+const val STATUS_ON = 1
 
-const val STATUS_OFF = "marker status off"
+const val STATUS_OFF = 0
 
-const val STATUS_ERROR = "marker status error"
+const val STATUS_ERROR = 2
 
 
 fun AMap.locateOnce() {
@@ -49,15 +50,20 @@ fun AMap.clearTools() {
  * @param count marker的统计数量
  */
 @SuppressLint("InflateParams")
-fun AMap.addCountMarker(context: Context, location: LatLng, status: String, count: Int): Marker? {
+fun AMap.addCountMarker(context: Context, location: LatLng, status: Int?, count: Int): Marker? {
     val view = LayoutInflater.from(context).inflate(R.layout.amap_marker_layout, null)
     val markerIcon = view.findViewById<ImageView>(R.id.marker_icon)
     val markerCount = view.findViewById<TextView>(R.id.marker_count_text)
-    markerCount.text = count.toString()
+    if (count == 0){
+        markerCount.visibility = View.GONE
+    }else{
+        markerCount.text = count.toString()
+    }
     when (status) {
         STATUS_ON -> markerIcon.setImageResource(R.mipmap.ic_marker_on)
         STATUS_OFF -> markerIcon.setImageResource(R.mipmap.ic_marker_off)
         STATUS_ERROR -> markerIcon.setImageResource(R.mipmap.ic_marker_error)
+        else ->  markerIcon.setImageResource(R.mipmap.ic_marker_off)
     }
     val bitmapDescriptor = BitmapDescriptorFactory
             .fromBitmap(view.convertViewToBitmap())

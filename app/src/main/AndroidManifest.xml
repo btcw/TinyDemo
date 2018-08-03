@@ -16,6 +16,8 @@
     <!--二维码扫描-->
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -28,15 +30,16 @@
             android:name="com.amap.api.v2.apikey"
             android:value="5684e09c8e8e95f93159b2ef7dfcf8d3"/>
         <activity android:name=".view.main.MainActivity">
+
+        </activity>
+        <activity android:name=".view.photoList.PhotoListActivity" />
+        <activity android:name=".view.register.RegisterActivity" />
+        <activity android:name=".view.login.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".view.photoList.PhotoListActivity" />
-        <activity android:name=".view.register.RegisterActivity" />
-        <activity android:name=".view.login.LoginActivity" >
 
         </activity>
         <activity android:name=".view.scan.QrCodeScanActivity" />

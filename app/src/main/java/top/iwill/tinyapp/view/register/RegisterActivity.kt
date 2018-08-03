@@ -2,7 +2,6 @@ package top.iwill.tinyapp.view.register
 
 import android.os.Bundle
 import android.view.View
-import cn.make1.cs.view.register.RegisterView
 import kotlinx.android.synthetic.main.activity_register_layout.*
 import kotlinx.android.synthetic.main.custom_action_bar_layout.*
 import top.iwill.tinyapp.R
@@ -39,7 +38,10 @@ class RegisterActivity : BaseActivity(), RegisterView {
         when (v.id) {
             R.id.registerNoticeText -> gotoLoginPage()
             R.id.registerGetMessageBtn -> mRegisterPresenter.getMsgCode(phoneEditText.text.toString())
-            R.id.registerBtn -> mRegisterPresenter.verifyMsgCode(phoneEditText.text.toString(), identifyCodeEditText.text.toString())
+            R.id.registerBtn -> mRegisterPresenter
+                    .register(phoneEditText.text.toString()
+                            , passwordEditText.text.toString()
+                            , identifyCodeEditText.text.toString())
             else -> MyLogger.d("widgetClick:${v.id}")
         }
     }
@@ -58,16 +60,12 @@ class RegisterActivity : BaseActivity(), RegisterView {
     }
 
 
-    override fun onVerifyCodeSuccess() {
-        mRegisterPresenter.register(phoneEditText.text.toString(), passwordEditText.text.toString())
-    }
-
     override fun onAccountIllegal() {
         showToast("账号信息不正确！", MyToast.ERROR)
     }
 
     override fun onPasswordIllegal() {
-        showToast("密码输入不正确！",  MyToast.ERROR)
+        showToast("密码输入不正确！", MyToast.ERROR)
     }
 
     override fun onCodeEmpty() {

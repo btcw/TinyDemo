@@ -2,8 +2,6 @@ package top.iwill.tinyapp.view.scan
 
 import android.os.Bundle
 import android.view.View
-import cn.make1.cs.view.scan.QrCodePresenter
-import cn.make1.cs.view.scan.QrCodeView
 import kotlinx.android.synthetic.main.activity_qr_scan_layout.*
 import kotlinx.android.synthetic.main.custom_action_bar_layout.*
 import me.dm7.barcodescanner.zbar.Result

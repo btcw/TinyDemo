@@ -11,6 +11,7 @@ import top.iwill.tinyapp.base.BaseActivity
 import top.iwill.tinyapp.utils.clearTools
 import top.iwill.tinyapp.utils.getWindowMetrics
 import top.iwill.tinyapp.utils.locateOnce
+import top.iwill.tinyapp.widget.MyToast
 
 /**
  * Comment: //图片列表界面
@@ -20,11 +21,13 @@ import top.iwill.tinyapp.utils.locateOnce
  * Company:Make1
  * Email:Jax.zhou@make1.cn
  */
-class PhotoListActivity : BaseActivity() {
+class PhotoListActivity : BaseActivity(), PhotoListView {
 
     private lateinit var mAmap: AMap
 
-    private val img = "https://iwill-top-1256873136.file.myqcloud.com/wp-content/pics/2018/07/p2.jpg"
+    private val mFragments = mutableListOf<Fragment>()
+
+    private val mPhotoListPresenter = PhotoListPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,26 +36,20 @@ class PhotoListActivity : BaseActivity() {
         initView()
     }
 
+    private lateinit var mPagerAdapter: PhotoPagerAdapter
+
     private fun initView() {
-//        actionbarTitle.text = "查看"
         mAmap = deviceMap.map
-        mAmap.setPointToCenter(getWindowMetrics(this).widthPixels / 2, getWindowMetrics(this).heightPixels / 4)
+        mAmap.setPointToCenter(getWindowMetrics(this).widthPixels / 2
+                , getWindowMetrics(this).heightPixels / 4)
         mAmap.clearTools()
         mAmap.locateOnce()
-        val fragments = mutableListOf<Fragment>()
-        val a = ListFragment()
-        val b = Bundle()
-        a.arguments = Bundle()
-        fragments.add(a)
-        fragments.add(ListFragment())
-        fragments.add(ListFragment())
-//        val recyclerView1 = RecyclerView(this)
-//        recyclerView1.adapter = PhotoAdapter(arrayListOf(img,img,img,img,img,img,img,img))
-//        val list = arrayListOf(recyclerView1,recyclerView1)
-//        photoViewPager.adapter = PhotosPagerAdapter(list)
-        photoViewPager.adapter = PhotoPagerAdapter(fragments, supportFragmentManager)
+        mPagerAdapter = PhotoPagerAdapter(mFragments, supportFragmentManager)
+        photoViewPager.adapter = mPagerAdapter
         photoViewPager.currentItem = 0
         photoViewPager.offscreenPageLimit = 2
+        val deviceId = intent.getStringExtra("deviceId")
+        mPhotoListPresenter.getPhotos(deviceId)
     }
 
     override fun onResume() {
@@ -80,6 +77,19 @@ class PhotoListActivity : BaseActivity() {
         when (v.id) {
             R.id.actionbarBack -> finish()
         }
+    }
+
+    override fun onReceivePhotos(photos: ArrayList<String>) {
+        val fragment = ListFragment()
+        val b = Bundle()
+        b.putStringArrayList("photos", photos)
+        fragment.arguments = b
+        mFragments.add(fragment)
+        mPagerAdapter.notifyDataSetChanged()
+    }
+
+    override fun onError(msg: String) {
+        showToast(msg, MyToast.ERROR)
     }
 
 

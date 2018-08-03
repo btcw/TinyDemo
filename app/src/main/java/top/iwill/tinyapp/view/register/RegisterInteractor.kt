@@ -2,12 +2,11 @@ package top.iwill.tinyapp.view.register
 
 
 import cn.make1.cs.http.MakeOneObserver
-import cn.make1.cs.http.entity.RegisterResult
 import com.allen.library.RxHttpUtils
 import com.allen.library.interceptor.Transformer
 import top.iwill.tinyapp.http.ApiService
 import top.iwill.tinyapp.http.entity.BaseResult
-import top.iwill.tinyapp.http.entity.ReceiveMsgResult
+import top.iwill.tinyapp.http.entity.RegisterResult
 
 /**
  * Comment: //注册模型层
@@ -19,9 +18,9 @@ import top.iwill.tinyapp.http.entity.ReceiveMsgResult
  */
 class RegisterInteractor {
 
-    fun register(account: String, password: String, listener: RegisterListener) {
+    fun register(account: String, password: String, code: String, listener: RegisterListener) {
         RxHttpUtils.createApi(ApiService::class.java)
-                .register(account, password)
+                .register(account, password, code)
                 .compose(Transformer.switchSchedulers<BaseResult<RegisterResult>>())
                 .subscribe(object : MakeOneObserver<RegisterResult>() {
                     override fun onSuccess(data: RegisterResult?) {
@@ -40,9 +39,9 @@ class RegisterInteractor {
     fun getMsgCode(account: String, listener: MsgCodeListener) {
         RxHttpUtils.createApi(ApiService::class.java)
                 .getMsgCode(account, "register")
-                .compose(Transformer.switchSchedulers<BaseResult<ReceiveMsgResult>>())
-                .subscribe(object : MakeOneObserver<ReceiveMsgResult>() {
-                    override fun onSuccess(data: ReceiveMsgResult?) {
+                .compose(Transformer.switchSchedulers<BaseResult<Any>>())
+                .subscribe(object : MakeOneObserver<Any>() {
+                    override fun onSuccess(data: Any?) {
                         listener.onMsgCodeSuccess()
                     }
 
@@ -50,25 +49,6 @@ class RegisterInteractor {
                         listener.onMsgCodeError(code, msg)
                     }
                 })
-    }
-
-
-    /**
-     * 检查手机验证码
-     */
-    fun verifyMsgCode(account: String, code: String, listener: MsgVerifyListener) {
-//        RxHttpUtils.createApi(ApiService::class.java)
-//                .verifyCode(account, code)
-//                .compose(Transformer.switchSchedulers<BaseResult<VerifyCodeResult>>())
-//                .subscribe(object : MakeOneObserver<VerifyCodeResult>() {
-//                    override fun onSuccess(data: VerifyCodeResult?) {
-//                        listener.onVerifySuccess()
-//                    }
-//
-//                    override fun onError(code: Int, msg: String) {
-//                        listener.onVerifyError(code, msg)
-//                    }
-//                })
     }
 
 

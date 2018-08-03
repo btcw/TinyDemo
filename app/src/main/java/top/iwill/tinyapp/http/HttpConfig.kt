@@ -14,7 +14,7 @@ import com.allen.library.config.OkHttpConfig
  */
 object HttpConfig {
 
-    private const val BASE_URL = "https://api.douban.com/"
+    private const val BASE_URL = "https://camera.eeioe.com/api/"
 
     fun init(application: Application) {
 
@@ -37,7 +37,9 @@ object HttpConfig {
                 //2、使用预埋证书，校验服务端证书（自签名证书）
                 //.setSslSocketFactory(cerInputStream)
                 //3、使用bks证书和密码管理客户端证书（双向认证），使用预埋证书，校验服务端证书（自签名证书）
-                //.setSslSocketFactory(bksInputStream,"123456",cerInputStream)
+                .setSslSocketFactory(application.assets.open("server.cer")
+                        , "214832908130915"
+                        , application.assets.open("keystore.bks"))
                 //全局超时配置
                 .setReadTimeout(10)
                 //全局超时配置

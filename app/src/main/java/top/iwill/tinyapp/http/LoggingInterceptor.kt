@@ -14,6 +14,7 @@ import java.io.IOException
  * Email:Jax.zhou@make1.cn
  */
 class LoggingInterceptor : Interceptor {
+
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         //这个chain里面包含了request和response，所以你要什么都可以从这里拿

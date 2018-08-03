@@ -1,7 +1,7 @@
 package top.iwill.tinyapp.view.register
 
-import cn.make1.cs.http.entity.RegisterResult
-import cn.make1.cs.view.register.RegisterView
+import top.iwill.tinyapp.base.BasePresenter
+import top.iwill.tinyapp.http.entity.RegisterResult
 import top.iwill.tinyapp.utils.TimerUtil
 
 /**
@@ -12,12 +12,11 @@ import top.iwill.tinyapp.utils.TimerUtil
  * Company:Make1
  * Email:Jax.zhou@make1.cn
  */
-class RegisterPresenter(var mRegisterView: RegisterView?) {
-
+class RegisterPresenter(var mRegisterView: RegisterView?) : BasePresenter() {
 
     private val mRegisterInteractor = RegisterInteractor()
 
-    fun register(account: String, password: String) {
+    fun register(account: String, password: String, code: String) {
         if (account.isEmpty() || account.length != 11) {
             mRegisterView?.onAccountIllegal()
             return
@@ -26,7 +25,7 @@ class RegisterPresenter(var mRegisterView: RegisterView?) {
             mRegisterView?.onPasswordIllegal()
             return
         }
-        mRegisterInteractor.register(account, password, object : RegisterInteractor.RegisterListener {
+        mRegisterInteractor.register(account, password, code, object : RegisterInteractor.RegisterListener {
             override fun onRegisterSuccess(result: RegisterResult?) {
                 mRegisterView?.onRegisterSuccess()
             }
@@ -55,26 +54,6 @@ class RegisterPresenter(var mRegisterView: RegisterView?) {
         })
     }
 
-    fun verifyMsgCode(account: String, code: String) {
-        if (account.isEmpty() || account.length != 11) {
-            mRegisterView?.onAccountIllegal()
-            return
-        }
-        if (code.isEmpty()) {
-            mRegisterView?.onCodeEmpty()
-            return
-        }
-        mRegisterInteractor.verifyMsgCode(account, code, object : RegisterInteractor.MsgVerifyListener {
-            override fun onVerifySuccess() {
-                mRegisterView?.onVerifyCodeSuccess()
-            }
-
-            override fun onVerifyError(code: Int, msg: String) {
-                mRegisterView?.onError(msg)
-            }
-        })
-    }
-
 
     /**
      * 开始倒计时
@@ -92,7 +71,7 @@ class RegisterPresenter(var mRegisterView: RegisterView?) {
         }, 60000, 1000)
     }
 
-    fun onDestroy() {
+    override fun onDestroy() {
         mRegisterView = null
     }
 

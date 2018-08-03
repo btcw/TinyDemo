@@ -19,26 +19,16 @@ import top.iwill.tinyapp.R
  */
 class ListFragment : Fragment() {
 
-    private val img = "https://iwill-top-1256873136.file.myqcloud.com/wp-content/pics/2018/07/p2.jpg"
-
     lateinit var recyclerview: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_pic_list_layout, container, false)
         recyclerview = view.findViewById(R.id.recyclerview)
+        val bundle = arguments
+        val photos = bundle?.getStringArrayList("photos")
+        recyclerview.adapter = PhotoAdapter(photos ?: arrayListOf())
+        recyclerview.layoutManager = LinearLayoutManager(activity)
         return view
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initData()
-    }
-
-    private fun initData() {
-        recyclerview.adapter = PhotoAdapter(arrayListOf(img,img,img,img,img,img,img,img))
-        recyclerview.layoutManager = LinearLayoutManager(activity)
-    }
-
-
 
 }

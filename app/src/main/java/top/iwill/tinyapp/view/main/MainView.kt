@@ -1,5 +1,7 @@
 package top.iwill.tinyapp.view.main
 
+import top.iwill.tinyapp.http.entity.DevicePoint
+
 /**
  * Comment: //主界面更新接口
  *
@@ -10,6 +12,12 @@ package top.iwill.tinyapp.view.main
  */
 interface MainView{
 
+    fun onReceiveONDevices(devices:List<DevicePoint>)
 
+    fun onReceiveErrorDevices(devices:List<DevicePoint>)
+
+    fun onReceiveOFFDevices(devices:List<DevicePoint>)
+
+    fun onError(des:String)
 
 }

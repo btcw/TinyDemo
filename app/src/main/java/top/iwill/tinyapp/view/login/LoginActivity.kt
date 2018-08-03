@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import cn.make1.cs.view.login.LoginPresenter
-import cn.make1.cs.view.login.LoginView
 import kotlinx.android.synthetic.main.activity_login_layout.*
 import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
@@ -26,7 +24,7 @@ import top.iwill.tinyapp.widget.MyToast
  */
 class LoginActivity : BaseActivity(), LoginView {
 
-    private val mMainPresenter = LoginPresenter(this)
+    private val mLoginPresenter = LoginPresenter(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +42,7 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun widgetClick(v: View) {
         when (v.id) {
             R.id.loginNoticeText -> gotoRegisterPage()
-            R.id.submitBtn -> mMainPresenter.login(loginAccountEdit.text.toString(),loginPasswordEdit.text.toString())
+            R.id.submitBtn -> mLoginPresenter.login(loginAccountEdit.text.toString(),loginPasswordEdit.text.toString())
             else -> MyLogger.d("widgetClick:+${v.id}")
         }
     }
@@ -93,7 +91,7 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun onDestroy() {
         super.onDestroy()
-        mMainPresenter.onDestroy()
+        mLoginPresenter.onDestroy()
     }
 
 }

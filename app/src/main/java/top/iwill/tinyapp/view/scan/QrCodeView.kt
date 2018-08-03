@@ -1,4 +1,4 @@
-package cn.make1.cs.view.scan
+package top.iwill.tinyapp.view.scan
 
 /**
  * Comment: //二维码页面更新接口
