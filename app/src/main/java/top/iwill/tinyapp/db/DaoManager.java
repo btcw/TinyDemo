@@ -18,7 +18,9 @@ import top.iwill.tinyapp.db.dao_gen.DaoSession;
  * Email:Jax.zhou@make1.cn
  */
 public class DaoManager {
+
     private BookDao mBookDao;
+
     private AuthorDao mAuthorDao;
 
     private DaoManager() {

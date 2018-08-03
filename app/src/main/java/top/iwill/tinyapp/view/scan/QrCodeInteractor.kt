@@ -30,13 +30,13 @@ class QrCodeInteractor {
 //                })
 //    }
 
-    interface BindDeviceListener {
-
+//    interface BindDeviceListener {
+//
 //        fun onBindSuccess(bindResult: BindResult?)
-
-        fun onError(code: Int, msg: String)
-
-    }
+//
+//        fun onError(code: Int, msg: String)
+//
+//    }
 
 
 }

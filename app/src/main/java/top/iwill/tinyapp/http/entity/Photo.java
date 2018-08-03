@@ -17,6 +17,7 @@ public class Photo {
      */
 
     private String id;
+
     @SerializedName("pic_name")
     private String picName;
 

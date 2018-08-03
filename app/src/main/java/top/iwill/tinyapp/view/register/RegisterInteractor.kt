@@ -67,11 +67,4 @@ class RegisterInteractor {
         fun onMsgCodeError(code: Int, msg: String)
     }
 
-    interface MsgVerifyListener {
-
-        fun onVerifySuccess()
-
-        fun onVerifyError(code: Int, msg: String)
-    }
-
 }

@@ -57,9 +57,6 @@ class LoginActivity : BaseActivity(), LoginView {
         startActivity(Intent(this, RegisterActivity::class.java))
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun onLoginSuccess() {
         showToast("登录成功！", MyToast.SUCCESS)

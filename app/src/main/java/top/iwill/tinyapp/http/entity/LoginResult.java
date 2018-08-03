@@ -16,6 +16,7 @@ public class LoginResult {
      */
 
     private String name;
+
     private String token;
 
     public String getName() {

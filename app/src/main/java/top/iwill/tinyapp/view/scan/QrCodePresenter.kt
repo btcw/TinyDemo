@@ -10,7 +10,7 @@ import top.iwill.tinyapp.base.BasePresenter
  * Company:Make1
  * Email:Jax.zhou@make1.cn
  */
-class QrCodePresenter(var mQrCodeView: QrCodeView?):BasePresenter(){
+class QrCodePresenter(private var mQrCodeView: QrCodeView?):BasePresenter(){
 
     private val mQrCodeInteractor = QrCodeInteractor()
 

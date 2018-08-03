@@ -18,6 +18,7 @@ public class DeviceListResult {
      */
 
     private Integer type;
+
     private List<DevicePoint> data;
 
     public Integer getType() {
