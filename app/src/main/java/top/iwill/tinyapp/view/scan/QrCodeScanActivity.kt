@@ -62,7 +62,7 @@ class QrCodeScanActivity : BaseActivity(), ZBarScannerView.ResultHandler, QrCode
     override fun handleResult(result: Result?) {
         MyLogger.d("result:${result?.contents}")
         val location = mLocation
-        if (location != null)
+        if (location != null && location.longitude != 0.0)
             mQrCodePresenter.bindDeviceByQrCode("db34a48b-0554-423b-8d24-3e3ac52196a6", location.latitude, location.longitude)
         else {
             showToast("未获取到定位信息，请稍后再试",MyToast.OTHERS)

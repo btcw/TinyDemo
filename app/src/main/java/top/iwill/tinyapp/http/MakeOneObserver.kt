@@ -29,7 +29,7 @@ abstract class MakeOneObserver<T> : Observer<BaseResult<T>> {
                 else -> onError(MakeOneApiException(baseData.code, baseData.description ?: "描述为空"))
             }
         } catch (e: Exception) {
-            MyLogger.e(e.printStackTrace().toString())
+            MyLogger.e(e.stackTrace.toString())
         }
     }
 
