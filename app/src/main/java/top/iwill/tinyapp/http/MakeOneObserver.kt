@@ -23,9 +23,13 @@ abstract class MakeOneObserver<T> : Observer<BaseResult<T>> {
     }
 
     override fun onNext(baseData: BaseResult<T>) {
-        when (baseData.code) {
-            200 -> onSuccess(baseData.data)
-            else -> onError(MakeOneApiException(baseData.code, baseData.description ?: "描述为空"))
+        try {
+            when (baseData.code) {
+                200 -> onSuccess(baseData.data)
+                else -> onError(MakeOneApiException(baseData.code, baseData.description ?: "描述为空"))
+            }
+        } catch (e: Exception) {
+            MyLogger.e(e.printStackTrace().toString())
         }
     }
 

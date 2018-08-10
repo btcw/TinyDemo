@@ -6,14 +6,13 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.View
 import com.amap.api.maps.AMap
+import com.amap.api.maps.model.BitmapDescriptor
+import com.amap.api.maps.model.BitmapDescriptorFactory
 import kotlinx.android.synthetic.main.activity_photo_list_layout.*
 import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
 import top.iwill.tinyapp.http.localentity.Device
-import top.iwill.tinyapp.utils.MyLogger
-import top.iwill.tinyapp.utils.clearTools
-import top.iwill.tinyapp.utils.getWindowMetrics
-import top.iwill.tinyapp.utils.locateOnce
+import top.iwill.tinyapp.utils.*
 import top.iwill.tinyapp.widget.MyPageTransformer
 import top.iwill.tinyapp.widget.MyToast
 
@@ -36,6 +35,8 @@ class PhotoListActivity : BaseActivity(), PhotoListView, ViewPager.OnPageChangeL
 
     private val mPhotoListPresenter = PhotoListPresenter(this)
 
+    private lateinit var mBitmapDescriptor: BitmapDescriptor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_list_layout)
@@ -46,6 +47,8 @@ class PhotoListActivity : BaseActivity(), PhotoListView, ViewPager.OnPageChangeL
     private lateinit var mPagerAdapter: PhotoPagerAdapter
 
     private fun initView() {
+        mBitmapDescriptor = BitmapDescriptorFactory
+                .fromResource(R.mipmap.ic_marker_on)
         mAmap = deviceMap.map
         mAmap.setPointToCenter(getWindowMetrics(this).widthPixels / 2
                 , getWindowMetrics(this).heightPixels / 4)
@@ -67,6 +70,7 @@ class PhotoListActivity : BaseActivity(), PhotoListView, ViewPager.OnPageChangeL
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
         mDeviceList.add(Device(deviceId, latitude, longitude))
+        mAmap.addMarker(latitude, longitude,mBitmapDescriptor)
     }
 
     override fun onResume() {
@@ -117,7 +121,7 @@ class PhotoListActivity : BaseActivity(), PhotoListView, ViewPager.OnPageChangeL
         if (isAhead) {
             mFragmentList.add(0, fragment)
             mPagerAdapter.notifyDataSetChanged()
-            photoViewPager.setCurrentItem(1,false)
+            photoViewPager.setCurrentItem(1, false)
         } else {
             mFragmentList.add(fragment)
             mPagerAdapter.notifyDataSetChanged()
@@ -129,11 +133,13 @@ class PhotoListActivity : BaseActivity(), PhotoListView, ViewPager.OnPageChangeL
 
     override fun onReceiveNextDevice(device: Device) {
         mDeviceList.add(device)
+        mAmap.addMarker(device.latitude, device.longitude,mBitmapDescriptor)
         addFragment(false, device.photos)
     }
 
     override fun onReceiveLastDevice(device: Device) {
         mDeviceList.add(0, device)
+        mAmap.addMarker(device.latitude, device.longitude,mBitmapDescriptor)
         addFragment(true, device.photos)
     }
 
@@ -143,20 +149,19 @@ class PhotoListActivity : BaseActivity(), PhotoListView, ViewPager.OnPageChangeL
     }
 
     override fun onPageScrollStateChanged(state: Int) {
-        MyLogger.d("PhotoListActivity,onPageScrollStateChanged:$state")
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        MyLogger.d("PhotoListActivity,onPageScrolled:$position,positionOffset:$positionOffset,positionOffsetPixels:$positionOffsetPixels")
     }
 
     override fun onPageSelected(position: Int) {
-        MyLogger.d("PhotoListActivity,onPageSelected:$position")
+        val currentDevice = mDeviceList[position]
+        mAmap.moveTo(currentDevice.latitude, currentDevice.longitude)
         //滑动到最后一条
         if (mDeviceList.size - 1 == position)
-            mPhotoListPresenter.getNextDevice(mDeviceList[position].id)
-        if (position ==0)
-            mPhotoListPresenter.getLastDevice(mDeviceList[position].id)
+            mPhotoListPresenter.getNextDevice(currentDevice.id)
+        if (position == 0)
+            mPhotoListPresenter.getLastDevice(currentDevice.id)
     }
 
 }

@@ -54,16 +54,16 @@ fun AMap.addCountMarker(context: Context, location: LatLng, status: Int?, count:
     val view = LayoutInflater.from(context).inflate(R.layout.amap_marker_layout, null)
     val markerIcon = view.findViewById<ImageView>(R.id.marker_icon)
     val markerCount = view.findViewById<TextView>(R.id.marker_count_text)
-    if (count == 0){
+    if (count == 0) {
         markerCount.visibility = View.GONE
-    }else{
+    } else {
         markerCount.text = count.toString()
     }
     when (status) {
         STATUS_ON -> markerIcon.setImageResource(R.mipmap.ic_marker_on)
         STATUS_OFF -> markerIcon.setImageResource(R.mipmap.ic_marker_off)
         STATUS_ERROR -> markerIcon.setImageResource(R.mipmap.ic_marker_error)
-        else ->  markerIcon.setImageResource(R.mipmap.ic_marker_off)
+        else -> markerIcon.setImageResource(R.mipmap.ic_marker_off)
     }
     val bitmapDescriptor = BitmapDescriptorFactory
             .fromBitmap(view.convertViewToBitmap())
@@ -74,13 +74,22 @@ fun AMap.addCountMarker(context: Context, location: LatLng, status: Int?, count:
     return addMarker(option)
 }
 
+
+fun AMap.addMarker(la: Double, lo: Double,bitmapDescriptor: BitmapDescriptor): Marker {
+    val option = MarkerOptions()
+            .anchor(0.5f, 0.5f)
+            .icon(bitmapDescriptor)
+            .position(LatLng(la, lo))
+    return addMarker(option)
+}
+
 /**
  * 移动地图到目标视野
  * @param latLng 坐标
  */
-fun AMap.MoveTo(latLng:LatLng){
-        val cameraUpdate = CameraUpdateFactory.newLatLng(latLng)
-        this.animateCamera(cameraUpdate)
+fun AMap.moveTo(latLng: LatLng) {
+    val cameraUpdate = CameraUpdateFactory.newLatLng(latLng)
+    this.animateCamera(cameraUpdate)
 }
 
 /**
@@ -88,8 +97,8 @@ fun AMap.MoveTo(latLng:LatLng){
  * @param la 纬度
  * @param lo 经度
  */
-fun AMap.MoveTo(la:Double,lo:Double){
-    val latLng = LatLng(la,lo)
+fun AMap.moveTo(la: Double, lo: Double) {
+    val latLng = LatLng(la, lo)
     val cameraUpdate = CameraUpdateFactory.newLatLng(latLng)
     this.animateCamera(cameraUpdate)
 }
