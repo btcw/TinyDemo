@@ -24,5 +24,5 @@ object AMapConfig {
     }
 
     fun getLocationClient(): AMapLocationClient = mLocationClient
-            ?: AMapLocationClient(BaseApplication.getApplication())
+            ?: AMapLocationClient(BaseApplication.getAppInstance())
 }

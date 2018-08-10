@@ -45,7 +45,7 @@ class BaseApplication : Application() {
         /**
          * 获取App的Context
          */
-        fun getApplication() = application!!
+        fun getAppInstance() = application!!
 
         fun getLocationClient():AMapLocationClient = AMapConfig.getLocationClient()
     }
