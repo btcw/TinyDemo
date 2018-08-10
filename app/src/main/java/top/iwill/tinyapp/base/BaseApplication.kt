@@ -1,11 +1,14 @@
 package top.iwill.tinyapp.base
 
 import android.app.Application
+import com.amap.api.location.AMapLocationClient
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import top.iwill.tinyapp.db.DaoManager
 import top.iwill.tinyapp.http.HttpConfig
+import top.iwill.tinyapp.location.AMapConfig
+
 
 /**
  * Comment: //BaseApplication
@@ -16,6 +19,8 @@ import top.iwill.tinyapp.http.HttpConfig
  * Email:Jax.zhou@make1.cn
  */
 class BaseApplication : Application() {
+
+
 
     override fun onCreate() {
         super.onCreate()
@@ -28,16 +33,21 @@ class BaseApplication : Application() {
         Logger.addLogAdapter(AndroidLogAdapter())
         //初始化数据库工具类
         DaoManager.getInstance().init(this)
+        //高德地图定位初始化
+        AMapConfig.init(this)
     }
 
     companion object {
 
         private var application: Application? = null
 
+
         /**
          * 获取App的Context
          */
         fun getApplication() = application!!
+
+        fun getLocationClient():AMapLocationClient = AMapConfig.getLocationClient()
     }
 
 }

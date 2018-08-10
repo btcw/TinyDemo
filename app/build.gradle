@@ -84,4 +84,6 @@ dependencies {
     implementation 'me.dm7.barcodescanner:zbar:1.9.8'
 
     implementation 'com.github.chrisbanes:PhotoView:v1.2.5'
+    //高德定位SDK
+    implementation 'com.amap.api:location:latest.integration'
 }

@@ -53,11 +53,30 @@ interface ApiService {
     fun getDevices(@Header("token") token: String
                    , @Field("run_status") status: Int): Observable<BaseResult<DeviceListResult>>
 
+
+    @FormUrlEncoded
+    @POST("device/device_bind")
+    fun bindDevice(@Header("token") token: String
+                   , @Field("deviceId") deviceId: String
+                   , @Field("latitude") latitude: Double
+                   , @Field("longitude") longitude: Double): Observable<BaseResult<Any>>
+
     @FormUrlEncoded
     @POST("device/single_device")
     fun getDevicePhotos(@Header("token") token: String
-                        , @Field("deviceId") deviceId: String) :Observable<BaseResult<DevicePhotoResult>>
+                        , @Field("deviceId") deviceId: String): Observable<BaseResult<DevicePhotoResult>>
 
+
+    /**
+     * 获取上一个/下一个设备
+     * @param deviceId 当前选中的设备ID
+     * @param order 1=> 下一个 2=> 上一个
+     */
+    @FormUrlEncoded
+    @POST("device/next_device")
+    fun getNextDevice(@Header("token") token: String
+                      , @Field("deviceId") deviceId: String
+                      , @Field("order") order: Int): Observable<BaseResult<NextDeviceResult>>
 
     @GET("get接口api")
     fun test(@Query("id") id: Long): Observable<BaseResult<Any>>

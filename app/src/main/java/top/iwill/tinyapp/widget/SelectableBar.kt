@@ -34,11 +34,11 @@ class SelectableBar(context: Context, attributeSet: AttributeSet)
     private var textError: TextView
     private var layoutError: LinearLayout
 
-    private var isSelectedOn = false
-    private var isSelectedOff = false
-    private var isSelectedError = false
+    var isSelectedOn = false
+    var isSelectedOff = false
+    var isSelectedError = false
 
-    private var listener : ItemSelectListener? = null
+    private var listener: ItemSelectListener? = null
 
     init {
         val cardView = LayoutInflater.from(context).inflate(R.layout.selectable_bar_layout, this)
@@ -68,7 +68,7 @@ class SelectableBar(context: Context, attributeSet: AttributeSet)
         }
     }
 
-    fun setOnItemSelectListener(listener: ItemSelectListener){
+    fun setOnItemSelectListener(listener: ItemSelectListener) {
         this.listener = listener
     }
 

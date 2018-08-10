@@ -1,13 +1,17 @@
 package top.iwill.tinyapp.view.scan
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import com.amap.api.location.AMapLocation
+import com.amap.api.location.AMapLocationListener
 import kotlinx.android.synthetic.main.activity_qr_scan_layout.*
 import kotlinx.android.synthetic.main.custom_action_bar_layout.*
 import me.dm7.barcodescanner.zbar.Result
 import me.dm7.barcodescanner.zbar.ZBarScannerView
 import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
+import top.iwill.tinyapp.location.locateOnce
 import top.iwill.tinyapp.utils.MyLogger
 import top.iwill.tinyapp.widget.MyToast
 
@@ -24,12 +28,17 @@ class QrCodeScanActivity : BaseActivity(), ZBarScannerView.ResultHandler, QrCode
 
     private val mQrCodePresenter = QrCodePresenter(this)
 
+    private var mLocation: AMapLocation? = null
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scan_layout)                // Set the scanner view as the content view
         scannerView.setAutoFocus(true)
         actionbarBack.visibility = View.VISIBLE
         actionbarTitle.text = "扫描二维码"
+        locateOnce(AMapLocationListener {
+            mLocation = it
+        })
     }
 
     public override fun onResume() {
@@ -52,13 +61,23 @@ class QrCodeScanActivity : BaseActivity(), ZBarScannerView.ResultHandler, QrCode
 
     override fun handleResult(result: Result?) {
         MyLogger.d("result:${result?.contents}")
-        mQrCodePresenter.bindDeviceByQrCode(result?.contents?:"")
-
+        val location = mLocation
+        if (location != null)
+            mQrCodePresenter.bindDeviceByQrCode("db34a48b-0554-423b-8d24-3e3ac52196a6", location.latitude, location.longitude)
+        else {
+            showToast("未获取到定位信息，请稍后再试",MyToast.OTHERS)
+            scannerView.resumeCameraPreview(this)
+            locateOnce(AMapLocationListener {
+                mLocation = it
+            })
+        }
     }
 
-    override fun onBindSuccess(deviceId: String?) {
+    override fun onBindSuccess() {
 //        Hawk.put(HAWK_DEVICE_ID,deviceId)
 //        startActivity(Intent(this, DetailsActivity::class.java))
+        showToast("绑定成功！", MyToast.SUCCESS)
+        setResult(Activity.RESULT_OK)
         finish()
     }
 

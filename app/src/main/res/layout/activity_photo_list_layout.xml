@@ -43,8 +43,7 @@
                 android:id="@+id/photoViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp" />
+                />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

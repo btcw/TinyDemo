@@ -3,7 +3,6 @@ package top.iwill.tinyapp.view.register
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_register_layout.*
-import kotlinx.android.synthetic.main.custom_action_bar_layout.*
 import top.iwill.tinyapp.R
 import top.iwill.tinyapp.base.BaseActivity
 import top.iwill.tinyapp.utils.MyLogger
@@ -29,7 +28,6 @@ class RegisterActivity : BaseActivity(), RegisterView {
     }
 
     private fun initView() {
-        actionbarTitle.text = "注册"
         SpannableStringUtil.setLinkedString(registerNoticeText, "已有账号？直接登录", "直接登录", this)
     }
 

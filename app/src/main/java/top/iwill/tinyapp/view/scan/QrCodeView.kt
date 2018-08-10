@@ -10,7 +10,7 @@ package top.iwill.tinyapp.view.scan
  */
 interface QrCodeView{
 
-    fun onBindSuccess(deviceId:String?)
+    fun onBindSuccess()
 
     fun onError(msg:String)
 

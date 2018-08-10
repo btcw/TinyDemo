@@ -1,6 +1,7 @@
 package top.iwill.tinyapp.view.main
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -126,7 +127,7 @@ class MainActivity : BaseActivity(), MainView
                 , Manifest.permission.CAMERA
                 , object : PermissionUtil.PermissionListener {
             override fun gratedPermission(permission: String) {
-                startActivity(Intent(this@MainActivity, QrCodeScanActivity::class.java))
+                startActivityForResult(Intent(this@MainActivity, QrCodeScanActivity::class.java),1)
             }
 
             override fun refused(permission: String) {
@@ -152,8 +153,8 @@ class MainActivity : BaseActivity(), MainView
         }
     }
 
-    private fun clearMarker(mutableList: MutableList<Marker>){
-        for (index in mutableList.indices){
+    private fun clearMarker(mutableList: MutableList<Marker>) {
+        for (index in mutableList.indices) {
             mutableList[index].remove()
         }
         mutableList.clear()
@@ -161,21 +162,21 @@ class MainActivity : BaseActivity(), MainView
 
     override fun onSelectedOn(isSelected: Boolean) {
         if (isSelected)
-            mMainPresenter.getDeviceList(1)
+            mMainPresenter.getDeviceList(DEVICE_LIST_STATUS_ON)
         else
             clearMarker(mONMarkerList)
     }
 
     override fun onSelectedOff(isSelected: Boolean) {
         if (isSelected)
-            mMainPresenter.getDeviceList(0)
+            mMainPresenter.getDeviceList(DEVICE_LIST_STATUS_OFF)
         else
             clearMarker(mOFFMarkerList)
     }
 
     override fun onSelectedError(isSelected: Boolean) {
         if (isSelected)
-            mMainPresenter.getDeviceList(2)
+            mMainPresenter.getDeviceList(DEVICE_LIST_STATUS_ERROR)
         else
             clearMarker(mERRORMarkList)
     }
@@ -183,7 +184,9 @@ class MainActivity : BaseActivity(), MainView
     override fun onMarkerClick(marker: Marker?): Boolean {
         val device = marker!!.`object` as DevicePoint
         val intent = Intent(this, PhotoListActivity::class.java)
-        intent.putExtra("deviceId",device.deviceId)
+        intent.putExtra("deviceId", device.deviceId)
+        intent.putExtra("latitude", device.latitude)
+        intent.putExtra("longitude", device.longitude)
         startActivity(intent)
         return true
     }
@@ -194,15 +197,27 @@ class MainActivity : BaseActivity(), MainView
 
 
     override fun onReceiveErrorDevices(devices: List<DevicePoint>) {
-        addDeviceToMap(mERRORMarkList,devices)
+        addDeviceToMap(mERRORMarkList, devices)
     }
 
     override fun onReceiveOFFDevices(devices: List<DevicePoint>) {
-        addDeviceToMap(mOFFMarkerList,devices)
+        addDeviceToMap(mOFFMarkerList, devices)
     }
 
     override fun onError(des: String) {
         showToast(des, MyToast.ERROR)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK){
+            if (mainBottomSelectableBar.isSelectedOn)
+                mMainPresenter.getDeviceList(DEVICE_LIST_STATUS_ON)
+            if (mainBottomSelectableBar.isSelectedOff)
+                mMainPresenter.getDeviceList(DEVICE_LIST_STATUS_OFF)
+            if (mainBottomSelectableBar.isSelectedError)
+                mMainPresenter.getDeviceList(DEVICE_LIST_STATUS_ERROR)
+        }
     }
 
 }

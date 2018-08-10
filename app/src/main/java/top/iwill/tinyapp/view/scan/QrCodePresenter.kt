@@ -14,17 +14,17 @@ class QrCodePresenter(private var mQrCodeView: QrCodeView?):BasePresenter(){
 
     private val mQrCodeInteractor = QrCodeInteractor()
 
-    fun bindDeviceByQrCode(deviceId:String){
+    fun bindDeviceByQrCode(deviceId:String,la:Double,lo:Double){
 
-//        mQrCodeInteractor.bindDeviceByQrCode(deviceId,object : QrCodeInteractor.BindDeviceListener{
-//            override fun onBindSuccess(bindResult: BindResult?) {
-//                mQrCodeView?.onBindSuccess(bindResult?.deviceId)
-//            }
-//
-//            override fun onError(code: Int, msg: String) {
-//                mQrCodeView?.onError(msg)
-//            }
-//        })
+        mQrCodeInteractor.bindDeviceByQrCode(deviceId,la,lo,object : QrCodeInteractor.BindDeviceListener{
+            override fun onBindSuccess() {
+                mQrCodeView?.onBindSuccess()
+            }
+
+            override fun onError(code: Int, msg: String) {
+                mQrCodeView?.onError(msg)
+            }
+        })
     }
     override fun onDestroy() {
         mQrCodeView = null
