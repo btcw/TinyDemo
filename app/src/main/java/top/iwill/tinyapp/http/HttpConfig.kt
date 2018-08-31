@@ -14,7 +14,7 @@ import com.allen.library.config.OkHttpConfig
  */
 object HttpConfig {
 
-    private const val BASE_URL = "https://camera.eeioe.com/api/"
+    private const val BASE_URL = "https://BaseUrl.xxx"
 
     fun init(application: Application) {
 

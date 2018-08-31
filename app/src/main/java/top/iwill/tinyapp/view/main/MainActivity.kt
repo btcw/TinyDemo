@@ -17,9 +17,6 @@ import top.iwill.tinyapp.utils.PermissionUtil
 import top.iwill.tinyapp.utils.addCountMarker
 import top.iwill.tinyapp.utils.clearTools
 import top.iwill.tinyapp.utils.locateOnce
-import top.iwill.tinyapp.view.photoList.PhotoListActivity
-import top.iwill.tinyapp.view.scan.QrCodeScanActivity
-import top.iwill.tinyapp.view.viewImg.ViewImgActivity
 import top.iwill.tinyapp.widget.MyToast
 import top.iwill.tinyapp.widget.SelectableBar
 
@@ -115,7 +112,7 @@ class MainActivity : BaseActivity(), MainView
     override fun widgetClick(v: View) {
         when (v.id) {
             R.id.mainBindBtn -> requestLocation()
-            R.id.mainCheckBtn -> startActivity(Intent(this, ViewImgActivity::class.java))
+//            R.id.mainCheckBtn -> startActivity(Intent(this, ViewImgActivity::class.java))
         }
     }
 
@@ -127,7 +124,7 @@ class MainActivity : BaseActivity(), MainView
                 , Manifest.permission.CAMERA
                 , object : PermissionUtil.PermissionListener {
             override fun gratedPermission(permission: String) {
-                startActivityForResult(Intent(this@MainActivity, QrCodeScanActivity::class.java),1)
+//                startActivityForResult(Intent(this@MainActivity, QrCodeScanActivity::class.java),1)
             }
 
             override fun refused(permission: String) {
@@ -183,11 +180,11 @@ class MainActivity : BaseActivity(), MainView
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         val device = marker!!.`object` as DevicePoint
-        val intent = Intent(this, PhotoListActivity::class.java)
-        intent.putExtra("deviceId", device.deviceId)
-        intent.putExtra("latitude", device.latitude)
-        intent.putExtra("longitude", device.longitude)
-        startActivity(intent)
+//        val intent = Intent(this, PhotoListActivity::class.java)
+//        intent.putExtra("deviceId", device.deviceId)
+//        intent.putExtra("latitude", device.latitude)
+//        intent.putExtra("longitude", device.longitude)
+//        startActivity(intent)
         return true
     }
 
